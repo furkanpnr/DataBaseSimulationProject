@@ -5,13 +5,16 @@ connectionString =  f"DRIVER={{SQL Server}}; SERVER={SERVER}; DATABASE={DATABASE
 
 
 class DBProxy:
+    
     def __init__(self) -> None:
-        self.conn = pyodbc.connect(connectionString)
-        self.cursor = self.connection.cursor()
+        self.conn = None
+        self.cursor = None
+        self._connect()
 
     def _connect(self) -> None:
         try:
             self.conn = pyodbc.connect(connectionString)
+            self.cursor = self.conn.cursor()
             print("Connected to the database")
         except Exception as e:
             print(f"Error connecting to the database: {e}")
@@ -24,11 +27,8 @@ class DBProxy:
         except Exception as e:
             print(f"Error disconnecting from the database: {e}")
         
-
     def __del__(self):
         self._disconnect()
-
-    
 
     def execute_select_query(self, query: str) -> list:
         """Select query executor
@@ -59,11 +59,14 @@ class DBProxy:
             return False
     
 
-    def update_sales_order_detail(self, begin_date, end_date):
+    def update_sales_order_detail(self, begin_date: str, end_date: str):
         """ Update Query for User A
-
-            args: begin_date , end_date > yyyy-mm-dd
+        
+        Args:
+            begin_date (str): yyyy-mm-dd
+            end_date (str): yyyy-mm-dd
         """
+
         query = """
             UPDATE Sales.SalesOrderDetail
             SET UnitPrice = UnitPrice * 10.0 / 10.0
@@ -88,8 +91,10 @@ class DBProxy:
     
     def select_sales_order_detail(self, begin_date, end_date):
         """ Select Query for User B
-
-            args: begin_date , end_date > yyyy-mm-dd
+        
+        Args:
+            begin_date (str): yyyy-mm-dd
+            end_date (str): yyyy-mm-dd
         """
         
         query = """
