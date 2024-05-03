@@ -1,6 +1,7 @@
-
+from modules.gui.service.gui import Gui
 def main():
-    pass
+    gui = Gui()
+    gui.mainloop()
 
 if __name__ == '__main__':
     main()
