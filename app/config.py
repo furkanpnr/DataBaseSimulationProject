@@ -2,5 +2,5 @@
 
 
 # DB Config
-SERVER = 'WIN-X400\\SQLEXPRESS'
-DATABASE = 'AdventureWorks2019'
+SERVER = '<server_name>'
+DATABASE = '<database_name>'
