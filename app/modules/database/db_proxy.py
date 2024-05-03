@@ -1,19 +1,20 @@
 import pyodbc
-from config import DATABASE, SERVER
-
-connectionString =  f"DRIVER={{SQL Server}}; SERVER={SERVER}; DATABASE={DATABASE}; Trusted_Connection=yes;"
-
 
 class DBProxy:
     
-    def __init__(self) -> None:
+    def __init__(self, 
+                 server_name: str, 
+                 database_name: str) -> None:
+        self.server_name = server_name
+        self.database_name = database_name
+        self.connectionString = f"DRIVER={{SQL Server}}; SERVER={server_name}; DATABASE={database_name}; Trusted_Connection=yes;"
         self.conn = None
         self.cursor = None
         self._connect()
 
     def _connect(self) -> None:
         try:
-            self.conn = pyodbc.connect(connectionString)
+            self.conn = pyodbc.connect(self.connectionString)
             self.cursor = self.conn.cursor()
             print("Connected to the database")
         except Exception as e:
