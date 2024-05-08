@@ -17,8 +17,9 @@ class Gui(customtkinter.CTk):
         
 
     def button_callbck(self):
-        Simulation.start(8,50)
+        Simulation.start(0,5)
 
     def button1_callbck(self):
         print("button1 clicked")
+        Simulation.get_query()
 

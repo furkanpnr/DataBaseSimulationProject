@@ -1,13 +1,16 @@
 import threading
 import random
 from modules.simulation.service.users import AUser, BUser
+from modules.database.db_proxy import DBProxy
+from config import DATABASE,SERVER
 
 class Simulation():
 
     @staticmethod
     def start(a_amount, b_amount):
-        a_users = [AUser() for _ in range(a_amount)]
-        b_users = [BUser() for _ in range(b_amount)]
+        mydb = DBProxy(SERVER,DATABASE)
+        a_users = [AUser(mydb) for _ in range(a_amount)]
+        b_users = [BUser(mydb) for _ in range(b_amount)]
         
         total_list = a_users + b_users
         random.shuffle(total_list)

@@ -1,13 +1,13 @@
 from modules.database.db_proxy import DBProxy
 
-__all__ = ['_db_proxy']
+__all__ = ['_db_proxy', 'SERVER', 'DATABASE']
 
 # GUI Configuration
 
 
 # DB Config
-SERVER = '<server_name>'
-DATABASE = '<database_name>'
+SERVER = 'LENOVO\SQLEXPRESS'
+DATABASE = 'AdventureWorks2019'
 
 
 _db_proxy = DBProxy(SERVER, DATABASE)
