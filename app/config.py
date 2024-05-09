@@ -1,6 +1,6 @@
-from modules.database.db_proxy import DBProxy
+from modules.database.enums import IsolationLevel
 
-__all__ = ['_db_proxy', 'SERVER', 'DATABASE']
+__all__ = ['SERVER', 'DATABASE', 'ISOLATION_LEVEL']
 
 # GUI Configuration
 
@@ -9,5 +9,5 @@ __all__ = ['_db_proxy', 'SERVER', 'DATABASE']
 SERVER = 'LENOVO\SQLEXPRESS'
 DATABASE = 'AdventureWorks2019'
 
-
-_db_proxy = DBProxy(SERVER, DATABASE)
+# Set a isolation level for simulation 
+ISOLATION_LEVEL = IsolationLevel.READ_COMMITTED

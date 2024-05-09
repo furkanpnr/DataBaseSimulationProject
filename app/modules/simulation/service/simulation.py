@@ -1,25 +1,46 @@
+from config import DATABASE, SERVER, ISOLATION_LEVEL
+
+from modules.database.db_proxy import DBProxy
+from modules.simulation.service.users import AUser, BUser
+
 import threading
 import random
-from modules.simulation.service.users import AUser, BUser
-from modules.database.db_proxy import DBProxy
-from config import DATABASE,SERVER
 
 class Simulation():
 
-    @staticmethod
-    def start(a_amount, b_amount):
-        mydb = DBProxy(SERVER,DATABASE)
-        a_users = [AUser(mydb) for _ in range(a_amount)]
-        b_users = [BUser(mydb) for _ in range(b_amount)]
-        
-        total_list = a_users + b_users
-        random.shuffle(total_list)
+    @classmethod
+    def start(cls, a_user_num, b_user_num):
+        """Starts the simulation"""
+
+        users = cls.generate_users(a_user_num, b_user_num)
 
         threads = []
-        for user_obj in total_list:
-            thread = threading.Thread(target=user_obj.start)
+        for user in users:
+            thread = threading.Thread(target=user.start)
             threads.append(thread)
             thread.start()
 
         for thread in threads:
             thread.join()
+    
+
+    @classmethod
+    def generate_users(cls, a_user_num, b_user_num):
+        """Generates the users"""
+
+        a_users = []
+        for _ in range(a_user_num):
+            db = DBProxy(SERVER, DATABASE, ISOLATION_LEVEL)
+            a_users.append(AUser(db))
+
+        b_users = []
+        for _ in range(b_user_num):
+            db = DBProxy(SERVER, DATABASE, ISOLATION_LEVEL)
+            b_users.append(BUser(db))
+        
+        users = a_users + b_users
+
+        # return random shuffled user list
+        random.shuffle(users)
+        return users
+    
