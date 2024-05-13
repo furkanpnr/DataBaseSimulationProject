@@ -3,6 +3,7 @@ from config import DATABASE, SERVER, ISOLATION_LEVEL
 from modules.database.db_proxy import DBProxy
 from modules.simulation.service.users import AUser, BUser
 
+import datetime
 import threading
 import random
 
@@ -11,6 +12,7 @@ class Simulation():
     @classmethod
     def start(cls, a_user_num, b_user_num):
         """Starts the simulation"""
+        start = datetime.datetime.now()
 
         users = cls.generate_users(a_user_num, b_user_num)
 
@@ -22,6 +24,9 @@ class Simulation():
 
         for thread in threads:
             thread.join()
+
+        total_duration = datetime.datetime.now() - start
+        return total_duration
     
 
     @classmethod

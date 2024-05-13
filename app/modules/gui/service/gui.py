@@ -27,6 +27,14 @@ class Gui(customtkinter.CTk):
         self.b_user_amount = customtkinter.CTkEntry(self.frame1, placeholder_text="1")
         self.b_user_amount.grid(row=1, column=1,padx=20, pady=20)
 
+
+        isolation_level_label = customtkinter.CTkLabel(self.frame1, text="Isolation Level (1-5)", fg_color="transparent")
+        isolation_level_label.grid(row=2, column=0,padx=20, pady=20)
+
+
+        self.isolation_level_amount = customtkinter.CTkEntry(self.frame1, placeholder_text="1")
+        self.isolation_level_amount.grid(row=2, column=1,padx=20, pady=20)
+
         #Buttons
         self.button = customtkinter.CTkButton(self, text="Start Simulation", command=self.button_callbck)
         self.button.pack(padx=20, pady=20)
@@ -40,20 +48,39 @@ class Gui(customtkinter.CTk):
 
         
 
-        self.number_of_type_a_users_label = customtkinter.CTkLabel(self.output_container, text="number_of_type_a_users", fg_color="transparent")
-        self.number_of_type_a_users_label.grid(row=0, column=0, padx=20, pady=20)
+        self.number_of_type_a_users_label = customtkinter.CTkLabel(self.output_container, text="A User Amount", fg_color="transparent")
+        self.number_of_type_a_users_label.grid(row=0, column=0, padx=20, pady=5)
+
+        self.number_of_type_a_users = customtkinter.CTkLabel(self.output_container, text="", fg_color="transparent")
+        self.number_of_type_a_users.grid(row=1, column=0, padx=20, pady=5)
+
         
-        self.number_of_type_b_users_label = customtkinter.CTkLabel(self.output_container, text="number_of_type_b_users", fg_color="transparent")
-        self.number_of_type_b_users_label.grid(row=0, column=1, padx=20, pady=20)
+        self.number_of_type_b_users_label = customtkinter.CTkLabel(self.output_container, text="B User Amount", fg_color="transparent")
+        self.number_of_type_b_users_label.grid(row=0, column=1, padx=20, pady=5)
 
-        self.number_of_deadlocks_a_label = customtkinter.CTkLabel(self.output_container, text="number_of_deadlocks_a", fg_color="transparent")
-        self.number_of_deadlocks_a_label.grid(row=0, column=2, padx=20, pady=20)
+        self.number_of_type_b_users = customtkinter.CTkLabel(self.output_container, text="", fg_color="transparent")
+        self.number_of_type_b_users.grid(row=1, column=1, padx=20, pady=5)
 
-        self.average_duration_b_label = customtkinter.CTkLabel(self.output_container, text="average_duration_b", fg_color="transparent")
-        self.average_duration_b_label.grid(row=0, column=3, padx=20, pady=20)
 
-        self.number_of_deadlocks_b_label = customtkinter.CTkLabel(self.output_container, text="number_of_deadlocks_b", fg_color="transparent")
-        self.number_of_deadlocks_b_label.grid(row=0, column=4, padx=20, pady=10)
+        self.number_of_deadlocks_a_label = customtkinter.CTkLabel(self.output_container, text=" A DeadLock Amount", fg_color="transparent")
+        self.number_of_deadlocks_a_label.grid(row=0, column=2, padx=20, pady=5)
+
+        self.number_of_deadlocks_a = customtkinter.CTkLabel(self.output_container, text="", fg_color="transparent")
+        self.number_of_deadlocks_a.grid(row=1, column=2, padx=20, pady=5)
+
+
+        self.number_of_deadlocks_b_label = customtkinter.CTkLabel(self.output_container, text="B DeadLock Amount", fg_color="transparent")
+        self.number_of_deadlocks_b_label.grid(row=0, column=3, padx=20, pady=5)
+
+        self.number_of_deadlocks_b = customtkinter.CTkLabel(self.output_container, text="", fg_color="transparent")
+        self.number_of_deadlocks_b.grid(row=1, column=3, padx=20, pady=5)
+
+
+        self.average_duration_b_label = customtkinter.CTkLabel(self.output_container, text="Elapsed Time", fg_color="transparent")
+        self.average_duration_b_label.grid(row=0, column=4, padx=20, pady=5)
+
+        self.average_duration_b = customtkinter.CTkLabel(self.output_container, text="", fg_color="transparent")
+        self.average_duration_b.grid(row=1, column=4, padx=20, pady=5)
 
 
 
@@ -65,7 +92,19 @@ class Gui(customtkinter.CTk):
 
 
     def button_callbck(self):
-        Simulation.start(int(self.a_user_amount.get()), int(self.b_user_amount.get()))
+        a_user_amount = int(self.a_user_amount.get())
+        b_user_amount = int(self.b_user_amount.get())
+        number_of_deadlocks_a = 0
+        number_of_deadlocks_b = 0
+        elapsed_time = 0
+        elapsed_time = Simulation.start(a_user_amount, b_user_amount)
+
+        self.number_of_type_a_users.configure(text=str(a_user_amount))
+        self.number_of_type_b_users.configure(text=str(b_user_amount))
+        self.number_of_deadlocks_a.configure(text=str(number_of_deadlocks_a))
+        self.number_of_deadlocks_b.configure(text=str(number_of_deadlocks_b))
+        self.average_duration_b.configure(text=elapsed_time)
+
         # pass
 
     def button1_callbck(self):
