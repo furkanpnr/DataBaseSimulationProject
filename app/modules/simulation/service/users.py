@@ -1,7 +1,7 @@
 from .abstract_user import User
 from modules.database.db_proxy import DBProxy
 
-import datetime
+from datetime import datetime
 import random
 
 
@@ -49,11 +49,11 @@ class BUser(User):
         super().__init__(db)
 
     def start(self):
-        beginTime = datetime.datetime.now()
+        beginTime = datetime.now()
         
         self.simulate()
 
-        endTime = datetime.datetime.now()
+        endTime = datetime.now()
         elapsed = endTime - beginTime
         print("Elapsed Time:", elapsed)  # Record elapsed time for reporting
 
