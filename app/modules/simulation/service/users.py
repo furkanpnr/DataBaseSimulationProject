@@ -1,88 +1,112 @@
 from .abstract_user import User
 from modules.database.db_proxy import DBProxy
 
-from datetime import datetime
+import time
 import random
-
 
 class AUser(User):
 
-    def __init__(self, db: DBProxy):
-        super().__init__(db)
+    def __init__(self, name: str, db: DBProxy, transaction_count: int) -> None:
+        super().__init__(name, db, transaction_count)
+        # Transaction query for User A
+        self._query = """
+            UPDATE Sales.SalesOrderDetail
+            SET UnitPrice = UnitPrice * 10.0 / 10.0
+            WHERE UnitPrice > 100
+            AND EXISTS (
+                SELECT *
+                FROM Sales.SalesOrderHeader
+                WHERE Sales.SalesOrderHeader.SalesOrderID = Sales.SalesOrderDetail.SalesOrderID
+                AND Sales.SalesOrderHeader.OrderDate BETWEEN ? AND ?
+                AND Sales.SalesOrderHeader.OnlineOrderFlag = 1
+            )
+        """
 
-    def start(self):
-        beginTime = datetime.now()
-        
+    def run(self):
+        begin_time = time.time()
+
+        # Simulate transactions
         self.simulate()
+        
+        end_time = time.time()
+        # Record elapsed time for reporting
+        self.elapsed_time = end_time - begin_time
 
-        endTime = datetime.now()
-        elapsed = endTime - beginTime
-        print("Elapsed Time:", elapsed)  # Record elapsed time for reporting
 
     def simulate(self):
-        for _ in range(100):
+        for _ in range(self._transaction_count):
 
-            # Connect to the DB
-            self.db.connect()
-            self.db.set_transaction_isolation_level()
-
-            if random.random() < 0.5:
-                self._update("20110101", "20111231")
+            self.db.connect() # Connect to the database
+            self.db.set_isolation_lvl() # Set transaction isolation level
 
             if random.random() < 0.5:
-                self._update("20120101", "20121231")
+                self.db.update_query(self._query, ("20110101", "20111231"))
 
             if random.random() < 0.5:
-                self._update("20130101", "20131231")
+                self.db.update_query(self._query, ("20120101", "20121231"))
 
             if random.random() < 0.5:
-                self._update("20140101", "20141231")
+                self.db.update_query(self._query, ("20130101", "20131231"))
 
             if random.random() < 0.5:
-                self._update("20150101", "20151231")
+                self.db.update_query(self._query, ("20140101", "20141231"))
 
-    def _update(self, begin_date, end_date):
-        self.db.update_sales_order_detail(begin_date, end_date)
+            if random.random() < 0.5:
+                self.db.update_query(self._query, ("20150101", "20151231"))
+
+            self.db.commit() # Commit the transaction
+            self.db.disconnect() # Disconnect from the database
+
 
 class BUser(User):
-    def __init__(self, db: DBProxy):
-        super().__init__(db)
 
-    def start(self):
-        beginTime = datetime.now()
-        
+    def __init__(self, name: str, db: DBProxy, transaction_count: int) -> None:
+        super().__init__(name, db, transaction_count)
+        # Transaction query for User B
+        self._query = """
+            SELECT SUM(Sales.SalesOrderDetail.OrderQty)
+            FROM Sales.SalesOrderDetail
+            WHERE UnitPrice > 100
+            AND EXISTS (
+                SELECT *
+                FROM Sales.SalesOrderHeader
+                WHERE Sales.SalesOrderHeader.SalesOrderID = Sales.SalesOrderDetail.SalesOrderID
+                AND Sales.SalesOrderHeader.OrderDate BETWEEN ? AND ?
+                AND Sales.SalesOrderHeader.OnlineOrderFlag = 1
+            )
+        """
+
+    def run(self):
+        begin_time = time.time()
+
+        # Simulate transactions
         self.simulate()
+        
+        end_time = time.time()
+        # Record elapsed time for reporting
+        self.elapsed_time = end_time - begin_time
 
-        endTime = datetime.now()
-        elapsed = endTime - beginTime
-        print("Elapsed Time:", elapsed)  # Record elapsed time for reporting
 
     def simulate(self):
-        for _ in range(100):
+        for _ in range(self._transaction_count):
+                
                 self.db.connect()  # Connect to the database
-                self.db.set_transaction_isolation_level()  # Set transaction isolation level
+                self.db.set_isolation_lvl()  # Set transaction isolation level
 
                 if random.random() < 0.5:
-                    self.read_data("20110101", "20111231")
+                    self.db.select_query(self._query, ("20110101", "20111231"))
 
                 if random.random() < 0.5:
-                    self.read_data("20120101", "20121231")
+                    self.db.select_query(self._query, ("20120101", "20121231"))
 
                 if random.random() < 0.5:
-                    self.read_data("20130101", "20131231")
+                    self.db.select_query(self._query, ("20130101", "20131231"))
 
                 if random.random() < 0.5:
-                    self.read_data("20140101", "20141231")
+                    self.db.select_query(self._query, ("20140101", "20141231"))
 
                 if random.random() < 0.5:
-                    self.read_data("20150101", "20151231")
+                    self.db.select_query(self._query, ("20150101", "20151231"))
 
-                self.db.commit()
-                self.db.disconnect()
-
-    def read_data(self, begin_date, end_date):
-        try:
-            result = self.db.select_sales_order_detail(begin_date, end_date)
-            print(result)
-        except Exception as e:
-            print("Error occurred while reading data from the database:")
+                self.db.commit() # Commit the transaction
+                self.db.disconnect() # Disconnect from the database
