@@ -1,9 +1,26 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
+
+from tools import _path_joiner
 
 load_dotenv()
 
 __all__ = ['SERVER', 'DATABASE', 'WIDTH', 'HEIGHT', 'RESIZEABLE', 'TITLE', 'INFO']
+
+
+# PATHS
+BASE_PATH = Path(__file__).resolve().parent.parent
+DATA_PATH = _path_joiner(BASE_PATH, 'data')
+
+#Experiments Paths
+EXPERIMENTS_PATH = _path_joiner(DATA_PATH, 'experiments')
+
+READ_COMMITTED_PATH = _path_joiner(EXPERIMENTS_PATH, 'read_committed_experiments.json')
+READ_UNCOMMITTED_PATH = _path_joiner(EXPERIMENTS_PATH, 'read_uncommitted_experiments.json')
+REPEATABLE_READ_PATH = _path_joiner(EXPERIMENTS_PATH, 'repeatable_read_experiments.json')
+SERIALIZABLE_PATH = _path_joiner(EXPERIMENTS_PATH, 'serializable_experiments.json')
+
 
 # GUI Configuration
 WIDTH = 1250

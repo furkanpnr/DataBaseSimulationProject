@@ -8,7 +8,7 @@ import random
 
 from rich.console import Console
 from rich.table import Table
-
+from rich import print
 
 class Simulation():
 
@@ -128,4 +128,53 @@ class Simulation():
         )
 
         console.print(table)
-    
+
+    @classmethod
+    def execute_experiment(cls, experiment: dict):
+        """Executes an experiment
+        This function is only for development purposes
+
+        Args:
+            experiment (dict): Experiment to be executed
+        """
+        a_user_count = experiment.get("a_user_count")
+        b_user_count = experiment.get("b_user_count")
+        transaction_count = experiment.get("transaction_count")
+        isolation_level = IsolationLevel(experiment.get("isolation_level"))
+
+        users = cls.generate_users(a_user_count, b_user_count, transaction_count, isolation_level)
+
+        
+        print("[bold green] Starting simulation \n")
+        begin_time = time.time()
+
+        for user in users:
+            user.start()
+        
+        for user in users:
+            user.join()
+        
+        end_time = time.time()
+        print("[bold cyan] All users finished")
+        print(f"[bold]Simulation took {end_time - begin_time:.2f} seconds \n")
+
+        a_users = [user for user in users if isinstance(user, AUser)]
+        b_users = [user for user in users if isinstance(user, BUser)]
+
+        avg_a_user_time = sum([user.elapsed_time for user in a_users]) / len(a_users) if len(a_users) > 0 else 0
+        avg_b_user_time = sum([user.elapsed_time for user in b_users]) / len(b_users) if len(b_users) > 0 else 0
+
+        a_user_deadlocks = sum([user.encountered_deadlock_num for user in a_users])
+        b_user_deadlocks = sum([user.encountered_deadlock_num for user in b_users])
+
+
+        results = {
+            "simulation_time": f"{end_time - begin_time:.2f} s",
+            "a_user_count": a_user_count,
+            "b_user_count": b_user_count,
+            "avg_a_user_time": f"{avg_a_user_time:.2f} s",
+            "a_user_deadlocks": a_user_deadlocks,
+            "avg_b_user_time": f"{avg_b_user_time:.2f} s",
+            "b_user_deadlocks": b_user_deadlocks
+        }
+        return results

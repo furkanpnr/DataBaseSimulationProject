@@ -1,0 +1,39 @@
+{
+    "experiments": [
+        {
+            "a_user_count": 1,
+            "b_user_count": 1,
+            "transaction_count": 100,
+            "isolation_level": "READ UNCOMMITTED",
+            "result": {}
+        },
+        {
+            "a_user_count": 10,
+            "b_user_count": 13,
+            "transaction_count": 100,
+            "isolation_level": "READ UNCOMMITTED",
+            "result": {}
+        },
+        {
+            "a_user_count": 50,
+            "b_user_count": 60,
+            "transaction_count": 100,
+            "isolation_level": "READ UNCOMMITTED",
+            "result": {}
+        },
+        {
+            "a_user_count": 78,
+            "b_user_count": 69,
+            "transaction_count": 100,
+            "isolation_level": "READ UNCOMMITTED",
+            "result": {}
+        },
+        {
+            "a_user_count": 100,
+            "b_user_count": 100,
+            "transaction_count": 100,
+            "isolation_level": "READ UNCOMMITTED",
+            "result": {}
+        }
+    ]
+}
