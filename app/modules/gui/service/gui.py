@@ -204,7 +204,7 @@ class Gui(customtkinter.CTk):
         results = Simulation.start(
             a_user_count=a_user_count,
             b_user_count=b_user_count,
-            transaction_count=2,
+            transaction_count=100, # Number of transactions to be executed by each user
             isolation_lvl=isolation_level
         )
         self.update_result_table(results)
