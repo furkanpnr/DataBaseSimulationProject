@@ -5,14 +5,30 @@
             "b_user_count": 1,
             "transaction_count": 100,
             "isolation_level": "REPEATABLE READ",
-            "result": {}
+            "result": {
+                "simulation_time": "586.17 s",
+                "a_user_count": 1,
+                "b_user_count": 1,
+                "avg_a_user_time": "586.16 s",
+                "a_user_deadlocks": 0,
+                "avg_b_user_time": "199.13 s",
+                "b_user_deadlocks": 37
+            }
         },
         {
             "a_user_count": 10,
             "b_user_count": 13,
             "transaction_count": 100,
             "isolation_level": "REPEATABLE READ",
-            "result": {}
+            "result": {
+                "simulation_time": "835.44 s",
+                "a_user_count": 10,
+                "b_user_count": 13,
+                "avg_a_user_time": "283.64 s",
+                "a_user_deadlocks": 1562,
+                "avg_b_user_time": "131.95 s",
+                "b_user_deadlocks": 2609
+            }
         },
         {
             "a_user_count": 50,

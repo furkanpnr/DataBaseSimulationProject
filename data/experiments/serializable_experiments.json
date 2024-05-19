@@ -5,35 +5,75 @@
             "b_user_count": 1,
             "transaction_count": 100,
             "isolation_level": "SERIALIZABLE",
-            "result": {}
+            "result": {
+                "simulation_time": "618.30 s",
+                "a_user_count": 1,
+                "b_user_count": 1,
+                "avg_a_user_time": "618.30 s",
+                "a_user_deadlocks": 0,
+                "avg_b_user_time": "148.04 s",
+                "b_user_deadlocks": 30
+            }
         },
         {
             "a_user_count": 10,
             "b_user_count": 13,
             "transaction_count": 100,
             "isolation_level": "SERIALIZABLE",
-            "result": {}
+            "result": {
+                "simulation_time": "724.61 s",
+                "a_user_count": 10,
+                "b_user_count": 13,
+                "avg_a_user_time": "464.37 s",
+                "a_user_deadlocks": 1808,
+                "avg_b_user_time": "192.58 s",
+                "b_user_deadlocks": 2558
+            }
         },
         {
             "a_user_count": 50,
             "b_user_count": 60,
             "transaction_count": 100,
             "isolation_level": "SERIALIZABLE",
-            "result": {}
+            "result": {
+                "simulation_time": "1681.55 s",
+                "a_user_count": 50,
+                "b_user_count": 60,
+                "avg_a_user_time": "180.00 s",
+                "a_user_deadlocks": 9719,
+                "avg_b_user_time": "989.02 s",
+                "b_user_deadlocks": 9017
+            }
         },
         {
             "a_user_count": 78,
             "b_user_count": 69,
             "transaction_count": 100,
             "isolation_level": "SERIALIZABLE",
-            "result": {}
+            "result": {
+                "simulation_time": "1762.35 s",
+                "a_user_count": 78,
+                "b_user_count": 69,
+                "avg_a_user_time": "747.06 s",
+                "a_user_deadlocks": 15199,
+                "avg_b_user_time": "1384.71 s",
+                "b_user_deadlocks": 13690
+            }
         },
         {
             "a_user_count": 100,
             "b_user_count": 100,
             "transaction_count": 100,
             "isolation_level": "SERIALIZABLE",
-            "result": {}
+            "result": {
+                "simulation_time": "1487.91 s",
+                "a_user_count": 100,
+                "b_user_count": 100,
+                "avg_a_user_time": "990.82 s",
+                "a_user_deadlocks": 19613,
+                "avg_b_user_time": "1058.13 s",
+                "b_user_deadlocks": 19985
+            }
         }
     ]
 }

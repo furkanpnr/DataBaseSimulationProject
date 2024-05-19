@@ -21,5 +21,5 @@ def experiments():
 
 
 if __name__ == '__main__':
-    # main()
-    experiments()
+    main()
+    # experiments()
